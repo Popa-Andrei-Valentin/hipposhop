@@ -207,21 +207,21 @@ export default {
       this.showProfile = false;
     },
     /**
-     * Verifies users authentification status and updates its state accordingly.
+     * Verifies users authentification status and updates it accordingly.
      * ** Firebase function **
      */
     async monitorAuthState() {
       onAuthStateChanged(firebaseAuthInit(firebaseInit), (user) => {
+        if (this.getUser) return;
         if (!user) return;
         this.loadUser(user.email);
-        if (user.email === "admin@hipposhop.io") this.loadAdmin(true);
-        else this.loadAdmin(false);
-      });
-      if (this.getUser)
         this.loadNotification({
           message: `Signed in to ${this.getUser}`,
           type: "info",
         });
+        if (user.email === "admin@hipposhop.io") this.loadAdmin(true);
+        else this.loadAdmin(false);
+      });
     },
   },
 };
